@@ -1,0 +1,86 @@
+/* =====================================================
+   QUARTZ + SHIKI – BLOQUES DE CÓDIGO DARK CONTRAST
+   (rehype-pretty-code compatible)
+   ===================================================== */
+
+/* ─────────────────────────────────────────────
+   1. PRE = FONDO REAL (CLAVE)
+   ───────────────────────────────────────────── */
+figure[data-rehype-pretty-code-figure] > pre {
+  background-color: #181926 !important; /* nord oscuro elegante */
+  border-radius: 6px;
+  padding: 1.2em 1.4em;
+  margin: 1.6em 0;
+  box-shadow: 0 10px 28px rgba(0, 0, 0, 0.5);
+}
+
+/* ─────────────────────────────────────────────
+   2. CODE SIN FONDO
+   ───────────────────────────────────────────── */
+figure[data-rehype-pretty-code-figure] code {
+  background: transparent !important;
+  padding: 0;
+  margin: 0;
+  display: grid;
+}
+
+/* ─────────────────────────────────────────────
+   3. TIPOGRAFÍA Y LECTURA
+   ───────────────────────────────────────────── */
+figure[data-rehype-pretty-code-figure] code {
+  font-family: 'Fira Code', 'JetBrains Mono', monospace;
+  font-size: 0.95rem;
+  line-height: 1.6;
+}
+
+/* ─────────────────────────────────────────────
+   4. TOKENS Y COMENTARIOS
+   ───────────────────────────────────────────── */
+figure[data-rehype-pretty-code-figure] span {
+  color: var(--shiki-dark) !important;
+}
+
+/* Comentarios visibles pero sobrios */
+figure[data-rehype-pretty-code-figure] .sk-comment,
+figure[data-rehype-pretty-code-figure] span[style*="font-style:italic"] {
+//  color: #7fdbca !important;
+  opacity: 1 !important;
+//  font-style: italic !important;
+}
+
+/* ─────────────────────────────────────────────
+   5. BOTÓN COPY
+   ───────────────────────────────────────────── */
+figure[data-rehype-pretty-code-figure] .clipboard-button {
+  background: rgba(255, 255, 255, 0.06);
+  border-radius: 6px;
+}
+
+/* ─────────────────────────────────────────────
+   6. SCROLL
+   ───────────────────────────────────────────── */
+figure[data-rehype-pretty-code-figure] pre::-webkit-scrollbar {
+  height: 8px;
+}
+
+figure[data-rehype-pretty-code-figure] pre::-webkit-scrollbar-thumb {
+  background: rgba(255, 255, 255, 0.25);
+  border-radius: 4px;
+}
+
+/* ─────────────────────────────────────────────
+   7. HOVER SUTIL (ELEGANTE, NO INTRUSIVO)
+   ───────────────────────────────────────────── */
+
+figure[data-rehype-pretty-code-figure] > pre {
+  transition:
+    box-shadow 0.25s ease,
+    background-color 0.25s ease;
+}
+
+/* hover solo cuando el mouse está sobre el bloque */
+figure[data-rehype-pretty-code-figure]:hover > pre {
+  background-color: #1c1f2e !important; /* apenas más claro */
+  box-shadow: 0 14px 36px rgba(0, 0, 0, 0.65);
+}
+
