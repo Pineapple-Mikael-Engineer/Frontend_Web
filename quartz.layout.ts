@@ -16,6 +16,33 @@ const explorerTrimDash = (node: FileTrieNode) => {
   node.displayName = node.displayName.split(/\s[—–-]\s/)[0].trim()
 }
 
+// Ordena el Explorer (arbol lateral) respetando el campo `order` del frontmatter.
+// - Carpetas y notas con `order` van primero, ordenadas por ese numero ascendente
+//   (para carpetas, el `order` se toma del index.md de la carpeta).
+// - Las que NO tienen `order` quedan despues: carpetas antes que archivos y, a
+//   igualdad, orden alfabetico natural (numeric:true, igual que el default).
+// Igual que explorerTrimDash, esta funcion se serializa con .toString() y corre
+// en el navegador, por eso es autocontenida (no referencia nada externo).
+const explorerSortByOrder = (a: FileTrieNode, b: FileTrieNode) => {
+  const orderA = a.data?.order
+  const orderB = b.data?.order
+
+  if (orderA !== undefined && orderB !== undefined) {
+    if (orderA !== orderB) return orderA - orderB
+  } else if (orderA !== undefined) {
+    return -1
+  } else if (orderB !== undefined) {
+    return 1
+  }
+
+  if (a.isFolder && !b.isFolder) return -1
+  if (!a.isFolder && b.isFolder) return 1
+  return a.displayName.localeCompare(b.displayName, undefined, {
+    numeric: true,
+    sensitivity: "base",
+  })
+}
+
 // components shared across all pages
 export const sharedPageComponents: SharedLayout = {
   head: Component.Head(),
@@ -53,7 +80,7 @@ export const defaultContentPageLayout: PageLayout = {
         { Component: Component.ReaderMode() },
       ],
     }),
-    Component.Explorer({ mapFn: explorerTrimDash }),
+    Component.Explorer({ mapFn: explorerTrimDash, sortFn: explorerSortByOrder }),
   ],
   right: [
     Component.Graph(),
@@ -77,7 +104,7 @@ export const defaultListPageLayout: PageLayout = {
         { Component: Component.Darkmode() },
       ],
     }),
-    Component.Explorer({ mapFn: explorerTrimDash }),
+    Component.Explorer({ mapFn: explorerTrimDash, sortFn: explorerSortByOrder }),
   ],
   right: [],
 }
